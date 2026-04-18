@@ -23,6 +23,7 @@ implementation).
 ## Quick Start
 
 ```bash
+brew install cmake ninja catch2 sentencepiece portaudio
 make mlx-stream                                           # the basics
 make mlx-stream PROMPT="deep house"          # any free-form style prompt
 make mlx-stream MLX_FLAGS="--dry-run --max-chunks 8"      # benchmark, no playback
