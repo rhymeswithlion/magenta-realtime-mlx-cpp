@@ -1,0 +1,25 @@
+[project]
+name = "magenta-realtime-mlx-reference"
+version = "0.1.0"
+description = "Isolated venv for reference subprocess (magenta_rt + TensorFlow + JAX; see reference/setup_reference_venv.sh)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "magenta_rt",
+  # 2.19.x caps XlaCallModule at v9; upstream SavedModels need v10 (TF >= 2.20).
+  "tensorflow>=2.20,<2.22",
+  # Keep pip in the venv: plain ``uv sync`` can otherwise drop it, breaking
+  # ``reference/install_reference_t5x.sh`` (``python -m pip``).
+  "pip>=24",
+  # ``scripts/run_reference_stream.py`` runs *inside* this venv now (no
+  # root-venv dependency), so the orchestrator-side libs live here too:
+  #   - numpy: IPC array shuttling
+  #   - soundfile: --record wav writer
+  #   - sounddevice: PortAudio playback (default + --list-devices)
+  "numpy",
+  "soundfile>=0.12",
+  "sounddevice>=0.5",
+]
+
+[tool.uv.sources]
+magenta_rt = { path = "../vendor/magenta-realtime", editable = true }

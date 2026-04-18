@@ -1,0 +1,24 @@
+MagentaRealtimeMLX
+Copyright 2026 Brian Cruz
+
+This product includes software derived from Magenta RealTime
+(https://github.com/magenta/magenta-realtime), Copyright 2025 Google LLC,
+licensed under the Apache License, Version 2.0.
+
+The architecture, weight conversion logic, and runtime pipeline in this
+repository are derived from Google DeepMind's Magenta RealTime release. See
+the upstream model card for full details:
+https://huggingface.co/google/magenta-realtime
+
+Redistributed model weights (published separately as a Hugging Face dataset
+at https://huggingface.co/datasets/rhymeswithlion/magenta-realtime-mlx-cpp) are
+derivative works of the upstream Magenta RealTime weights and are licensed
+under the Creative Commons Attribution 4.0 International license (CC-BY 4.0),
+Copyright 2025 Google LLC. Use of those weights is also subject to Google's
+Magenta RealTime Terms of Use, reproduced in the dataset README.
+
+The MusicCoCa encoder shipped in that bundle (musiccoca_encoder.safetensors)
+has been lightly fine-tuned by Brian Cruz to better match the outputs of the
+original (pre-conversion) MusicCoCa XLA SavedModel. The fine-tune deltas are
+licensed under the Apache License, Version 2.0, Copyright 2026 Brian Cruz;
+the underlying upstream encoder weights remain under CC-BY 4.0 as above.

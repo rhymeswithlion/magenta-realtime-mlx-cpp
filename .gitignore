@@ -1,0 +1,42 @@
+.DS_Store
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Test and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+
+# Local model assets
+.weights-cache/
+weights/
+.magenta-rt-asset-cache/
+
+# Reference JAX/TF venv and t5x build tree (reference/setup_reference_venv.sh)
+reference/.venv/
+.t5x-build/
+
+# Output
+output/
+
+# C++ build artifacts
+compile_commands.json
+.cache/

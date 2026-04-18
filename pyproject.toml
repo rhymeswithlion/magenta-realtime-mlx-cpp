@@ -1,0 +1,75 @@
+[project]
+name = "magenta-realtime-mlx-cpp"
+version = "0.1.0"
+description = "C++ MLX implementation of Magenta RealTime for Apple Silicon, with a Python helper for Hugging Face weight downloads and a reference (JAX/TF) baseline launcher"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Brian Cruz" }]
+requires-python = ">=3.12"
+# This distribution ships the playback path only. The runtime is C++
+# end-to-end -- no Python interpreter is loaded by the binary. Python
+# is here for two install-time helpers and one C++ toolchain
+# dependency:
+#   1. download pre-bundled .safetensors + .mlxfn weights from
+#      Hugging Face (``scripts/download_weights_from_hf.py``);
+#   2. launch the upstream JAX/TF reference baseline through its own
+#      isolated venv (``scripts/run_reference_stream.py``);
+#   3. install MLX itself (see comment on the ``mlx`` dep below).
+# Weight bundling and .mlxfn export tooling are not part of this
+# distribution.
+dependencies = [
+    # MLX is distributed upstream as a Python wheel that bundles the
+    # full C++ side: ``libmlx.dylib``, ``mlx.metallib``, the C++
+    # headers, and an ``MLXConfig.cmake`` for ``find_package(MLX)``.
+    # PyPI is just the delivery channel -- the wheel is the canonical
+    # *C++* distribution for MLX on macOS, not a Python runtime
+    # dependency. Our CMake build picks the artefacts up out of
+    # ``.venv/lib/python3.*/site-packages/mlx/`` (overridable with
+    # ``-DMLX_ROOT=``), and ``mlx-stream`` RPATHs back to the same
+    # location so it finds ``libmlx.dylib`` at run time without
+    # ``DYLD_LIBRARY_PATH``. Switch this to a ``CMake FetchContent``
+    # of ``ml-explore/mlx`` if a fully Python-free build ever matters.
+    "mlx>=0.18",
+    # HF download (``scripts/download_weights_from_hf.py``).
+    "huggingface-hub>=0.24",
+    "hf-transfer>=0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Wheel is intentionally tiny: just the install-time helper scripts.
+# The C++ runtime is built locally via the top-level Makefile and
+# ships as a separate artifact, not as a Python wheel.
+[tool.hatch.build.targets.wheel]
+only-include = ["scripts"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "README.md", "LICENSE", "NOTICE", "Makefile", "CMakeLists.txt",
+    "scripts", "tests", "reference",
+    "cli", "src",
+]
+# Submodule checkout is not expanded into sdists; exclude so archives are not
+# mistaken for a usable `vendor/magenta-realtime` tree (use git + submodule).
+exclude = ["vendor/**", "**/build/**", "**/.weights-cache/**"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+# numpy: needed only so ``tests/test_ref_stream_protocol.py`` can
+# import ``scripts/run_reference_stream.py`` (which top-level imports
+# numpy via ``realtime_playback``). The script itself runs in
+# ``reference/.venv``, where numpy lives as a real runtime dep.
+dev = ["pytest>=8", "pre-commit>=4", "ruff>=0.9", "numpy"]
+
+[tool.ruff]
+target-version = "py312"
+src = ["scripts", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "W"]
+ignore = ["E501"]
