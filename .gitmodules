@@ -1,3 +1,0 @@
-[submodule "vendor/magenta-realtime"]
-	path = vendor/magenta-realtime
-	url = https://github.com/magenta/magenta-realtime.git
