@@ -1,5 +1,7 @@
 # MagentaRealtimeMLX
 
+https://github.com/user-attachments/assets/e8771941-56ed-452b-8615-d2391a6fa520
+
 Real-time music generation with [Magenta RealTime](https://github.com/magenta/magenta-realtime),
 implemented natively against MLX in C++ for Apple Silicon. The streaming
 binary holds **>1.0× real-time factor on M-series laptops** (M3 Pro and
