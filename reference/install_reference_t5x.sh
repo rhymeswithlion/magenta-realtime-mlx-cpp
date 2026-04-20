@@ -61,7 +61,10 @@ if [[ -f "$STAMP" ]] && grep -qF "$STAMP_LINE" "$STAMP"; then
 fi
 
 if [[ ! -f "$PATCH_DIR/t5x_setup.py.patch" ]]; then
-  echo "error: missing $PATCH_DIR/t5x_setup.py.patch (init submodule?)"
+  echo "error: missing $PATCH_DIR/t5x_setup.py.patch"
+  echo "  vendor/magenta-realtime/patch/ should ship in any git checkout of"
+  echo "  this repo; if it is missing you may have installed from a PyPI sdist"
+  echo "  (which omits the vendored tree). Use a git clone instead."
   exit 1
 fi
 

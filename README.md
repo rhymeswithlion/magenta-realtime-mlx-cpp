@@ -213,8 +213,8 @@ operational knobs (`--prebuffer-chunks`, `--max-queue-chunks`,
 - `scripts/` -- HF download helper + reference-stream launcher (Python)
 - `reference/` -- isolated reference-Python environment + subprocess
   runner code for `ref-stream`
-- `vendor/magenta-realtime/` -- upstream git submodule used by the
-  reference path
+- `vendor/magenta-realtime/` -- vendored upstream source tree used by
+  the reference path (checked into this repo, not a submodule)
 
 ## License
 

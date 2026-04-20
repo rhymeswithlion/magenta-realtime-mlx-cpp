@@ -52,8 +52,9 @@ include = [
     "scripts", "tests", "reference",
     "cli", "src",
 ]
-# Submodule checkout is not expanded into sdists; exclude so archives are not
-# mistaken for a usable `vendor/magenta-realtime` tree (use git + submodule).
+# The vendored upstream tree is intentionally omitted from sdists to keep them
+# small; the reference path (`make ref-stream`) requires a git checkout, not a
+# `pip install`. The wheel itself only ships `scripts/`.
 exclude = ["vendor/**", "**/build/**", "**/.weights-cache/**"]
 
 [tool.pytest.ini_options]
@@ -69,6 +70,7 @@ dev = ["pytest>=8", "pre-commit>=4", "ruff>=0.9", "numpy"]
 [tool.ruff]
 target-version = "py312"
 src = ["scripts", "tests"]
+extend-exclude = ["vendor"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "W"]

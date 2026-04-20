@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # Create reference/.venv with upstream magenta_rt (JAX/TF) for run_reference_stream.py.
-# Requires: git submodule vendor/magenta-realtime, uv on PATH.
+# Requires: a git checkout (vendor/magenta-realtime ships in-tree) and uv on PATH.
 #
 # Usage (from repository root):
 #   bash reference/setup_reference_venv.sh
@@ -26,7 +26,8 @@ SUB="$ROOT/vendor/magenta-realtime"
 
 if [[ ! -f "$SUB/pyproject.toml" ]]; then
   echo "error: vendor/magenta-realtime missing or empty."
-  echo "  Run: git submodule update --init vendor/magenta-realtime"
+  echo "  This usually means you installed from a PyPI sdist, which does not"
+  echo "  ship the vendored upstream tree. Use a git clone of the repo instead."
   exit 1
 fi
 

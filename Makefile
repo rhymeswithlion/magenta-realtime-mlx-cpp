@@ -29,7 +29,7 @@ MLX_FLAGS  ?=
 REF_FLAGS  ?=
 WEIGHTS_TAG ?= base
 
-.PHONY: help sync test submodule reference-venv ensure-ref-python \
+.PHONY: help sync test reference-venv ensure-ref-python \
 	ensure-weights-cache clean \
 	mlx-stream ref-stream devices-mlx devices-ref \
 	build test-cpp clean-build
@@ -75,9 +75,6 @@ sync:
 test: sync
 	$(UV) run pytest $(ROOT)/tests/
 
-submodule:
-	git -C $(ROOT) submodule update --init vendor/magenta-realtime
-
 # ---------------------------------------------------------------------------
 # Reference (upstream JAX/TF) path. Python here, but in an isolated venv
 # that this project does not import in-process.
@@ -86,7 +83,6 @@ submodule:
 # Real file target: rebuild when reference deps or install scripts change.
 $(REFERENCE_PYTHON): $(ROOT)/reference/pyproject.toml $(ROOT)/reference/uv.lock \
 		$(ROOT)/reference/setup_reference_venv.sh $(ROOT)/reference/install_reference_t5x.sh
-	git -C $(ROOT) submodule update --init vendor/magenta-realtime
 	bash $(ROOT)/reference/setup_reference_venv.sh
 
 reference-venv: $(REFERENCE_PYTHON)

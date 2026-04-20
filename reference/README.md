@@ -3,14 +3,14 @@
 This directory defines a **separate** virtual environment from the main MLX
 package: TensorFlow, JAX, and editable `magenta_rt` from `../vendor/magenta-realtime`.
 
-**Git checkout only:** initialize the submodule (`git submodule update --init
-vendor/magenta-realtime`). A PyPI **sdist** tarball does not ship the upstream
-tree; use a git clone for `reference/setup_reference_venv.sh`.
+**Git checkout only:** the upstream tree at `vendor/magenta-realtime/` is
+vendored directly into this repository (a normal `git clone` already brings it
+down). A PyPI **sdist** tarball does not ship that tree, so use a git clone for
+`reference/setup_reference_venv.sh`.
 
 From the **repository root**:
 
 ```bash
-git submodule update --init vendor/magenta-realtime
 bash reference/setup_reference_venv.sh
 ```
 

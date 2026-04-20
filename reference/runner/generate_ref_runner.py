@@ -156,12 +156,15 @@ def main() -> None:
 
     _apply_jax_patches()
 
-    import jax
-    from magenta_rt import asset, utils
-    from magenta_rt.depthformer import model
-    from magenta_rt.system import MagentaRTConfiguration
+    # Imports are deliberately deferred until *after* _apply_jax_patches() so the
+    # patched JAX behaviour is in effect when these modules import jax. Don't let
+    # ruff/isort hoist them.
+    import jax  # noqa: I001
+    from magenta_rt import asset, utils  # noqa: I001
+    from magenta_rt.depthformer import model  # noqa: I001
+    from magenta_rt.system import MagentaRTConfiguration  # noqa: I001
 
-    from ref_tf_decode_lib import decode_tokens_to_waveform, load_ssv2_decoder_bundle
+    from ref_tf_decode_lib import decode_tokens_to_waveform, load_ssv2_decoder_bundle  # noqa: I001
 
     config = MagentaRTConfiguration()
     print(f"JAX {jax.__version__} on {jax.devices()}")
